@@ -1,2 +1,15 @@
 ﻿<Solution>
+  <Project Path="UniTask.csproj" />
+  <Project Path="Solana.Unity.SDK.Editor.csproj" />
+  <Project Path="UniTask.Linq.csproj" />
+  <Project Path="NativeShare.Runtime.csproj" />
+  <Project Path="Assembly-CSharp.csproj" />
+  <Project Path="com.solana.unity_sdk.csproj" />
+  <Project Path="NativeShare.Editor.csproj" />
+  <Project Path="UnityGifDecoder.csproj" />
+  <Project Path="Assembly-CSharp-Editor.csproj" />
+  <Project Path="UniTask.TextMeshPro.csproj" />
+  <Project Path="UniTask.DOTween.csproj" />
+  <Project Path="UniTask.Editor.csproj" />
+  <Project Path="UniTask.Addressables.csproj" />
 </Solution>
