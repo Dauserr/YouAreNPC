@@ -31,5 +31,5 @@ MonoBehaviour:
   _marketplaceEnabled: 1
   _cryptoWalletEnabled: 1
   _developerSecretKey: C2Y60L321FUNWR69MEWQOWALUH5HMIYEUI297BAXAK1GH09Y0S
-  WebGLBuildPath: 
+  WebGLBuildPath: C:\Users\dauser\Desktop\unityGamejambuild\Build
   ClearDirectory: 1
