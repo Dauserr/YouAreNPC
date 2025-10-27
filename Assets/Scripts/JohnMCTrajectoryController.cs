@@ -109,14 +109,21 @@ public class JohnMCTrajectoryController : MonoBehaviour
             isMoving = true;
         }
 
-        // Flip sprite based on direction
-        if (Mathf.Abs(direction.x) > 0.1f)
+        // Flip sprite and determine animation based on direction
+        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+        if (spriteRenderer != null)
         {
-            SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
-            if (spriteRenderer != null)
+            // Determine primary movement direction
+            bool movingHorizontal = Mathf.Abs(direction.x) > Mathf.Abs(direction.y);
+            bool movingVertical = Mathf.Abs(direction.y) > Mathf.Abs(direction.x);
+            
+            if (movingHorizontal && direction.x != 0)
             {
+                // Moving left or right - flip sprite
                 spriteRenderer.flipX = direction.x < 0;
             }
+            
+            // UpdateAnimations will handle the directional animation
         }
     }
 
@@ -134,6 +141,33 @@ public class JohnMCTrajectoryController : MonoBehaviour
         // Set speed for walking animations (matches controller)
         float speed = isMoving ? moveSpeed : 0f;
         animator.SetFloat("Speed", speed);
+        
+        // Determine direction for directional animations
+        if (isMoving && waypoints != null && currentWaypointIndex < waypoints.Length)
+        {
+            Transform targetWaypoint = waypoints[currentWaypointIndex].waypoint;
+            if (targetWaypoint != null)
+            {
+                Vector2 direction = (targetWaypoint.position - transform.position).normalized;
+                
+                // Determine if moving vertically (up/down)
+                bool movingVertical = Mathf.Abs(direction.y) > Mathf.Abs(direction.x);
+                bool movingUp = direction.y > 0.3f;
+                bool movingDown = direction.y < -0.3f;
+                
+                // Set animation parameters for directional movement
+                animator.SetBool("WalkingUp", movingVertical && movingUp);
+                animator.SetBool("WalkingDown", movingVertical && movingDown);
+                animator.SetBool("WalkingHorizontal", !movingVertical);
+            }
+        }
+        else
+        {
+            // Not moving - reset directional parameters
+            animator.SetBool("WalkingUp", false);
+            animator.SetBool("WalkingDown", false);
+            animator.SetBool("WalkingHorizontal", false);
+        }
     }
 
     // Call this when John-MC should take a hit
