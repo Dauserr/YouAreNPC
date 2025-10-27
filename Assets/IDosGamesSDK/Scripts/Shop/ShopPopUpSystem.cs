@@ -26,6 +26,9 @@ namespace IDosGames
             SetActivatePopUp(_tokenPopUp, false);
             SetActivatePopUp(_coinPopUp, false);
             SetActivatePopUp(_confirmationPopUp, false);
+            
+            // Resume game when all popups are hidden
+            Time.timeScale = 1f;
         }
 
         private void SetActivatePopUp(PopUp popUp, bool active)
@@ -36,6 +39,16 @@ namespace IDosGames
             }
 
             popUp.gameObject.SetActive(active);
+            
+            // Freeze/unfreeze game when showing/hiding popup
+            if (active)
+            {
+                Time.timeScale = 0f; // Freeze when opening
+            }
+            else
+            {
+                Time.timeScale = 1f; // Resume when closing
+            }
         }
 
         public void ShowShopWindow()
