@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: f437d7e916aa7e94c94598f6fbc765db
+guid: b602a86f24300204ca0c465077fc4bfa
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8192519800570142188
-    second: Npc_walk1 (2)_0
+      213: -5811938022385746263
+    second: Mn_right1_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -126,13 +126,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Npc_walk1 (2)_0
+      name: Mn_right1_0
       rect:
         serializedVersion: 2
-        x: 335
+        x: 303
         y: 95
-        width: 354
-        height: 802
+        width: 418
+        height: 818
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ced56505a5da1b170800000000000000
-      internalID: 8192519800570142188
+      spriteID: 9ae7c1f5929d75fa0800000000000000
+      internalID: -5811938022385746263
       vertices: []
       indices: 
       edges: []
@@ -161,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Npc_walk1 (2)_0: 8192519800570142188
+      Mn_right1_0: -5811938022385746263
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
