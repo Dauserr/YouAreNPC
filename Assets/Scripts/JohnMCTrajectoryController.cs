@@ -1,13 +1,20 @@
 using UnityEngine;
+using System;
+
+[Serializable]
+public class WaypointData
+{
+    public Transform waypoint;
+    public float waitTime = 2f; // Seconds to wait at this waypoint
+}
 
 public class JohnMCTrajectoryController : MonoBehaviour
 {
     [Header("Movement Settings")]
     public float moveSpeed = 2f;
-    public bool loopTrajectory = true;
     
     [Header("Trajectory Points")]
-    public Transform[] waypoints; // Set waypoints in Inspector
+    public WaypointData[] waypoints; // Set waypoints with wait times in Inspector
 
     [Header("Animation Settings")]
     public Animator animator;
@@ -20,6 +27,9 @@ public class JohnMCTrajectoryController : MonoBehaviour
     private int currentWaypointIndex = 0;
     private bool isMoving = false;
     private bool isAttacking = false;
+    private bool isWaiting = false;
+    private float waitTimer = 0f;
+    private bool hasReachedLastWaypoint = false;
 
     void Start()
     {
@@ -39,22 +49,48 @@ public class JohnMCTrajectoryController : MonoBehaviour
     void MoveAlongTrajectory()
     {
         if (isAttacking) return; // Don't move while attacking
-
-        if (currentWaypointIndex >= waypoints.Length)
+        
+        // Check if reached last waypoint
+        if (hasReachedLastWaypoint)
         {
-            if (loopTrajectory)
+            isMoving = false;
+            isWaiting = false;
+            return;
+        }
+
+        // Check if we're waiting at a waypoint
+        if (isWaiting)
+        {
+            waitTimer -= Time.deltaTime;
+            if (waitTimer <= 0)
             {
-                currentWaypointIndex = 0;
+                isWaiting = false;
+                currentWaypointIndex++;
+                
+                if (currentWaypointIndex >= waypoints.Length)
+                {
+                    hasReachedLastWaypoint = true;
+                    isMoving = false;
+                    return;
+                }
             }
             else
             {
-                isMoving = false;
-                return;
+                return; // Still waiting
             }
         }
 
-        Transform targetWaypoint = waypoints[currentWaypointIndex];
-        if (targetWaypoint == null) return;
+        if (currentWaypointIndex >= waypoints.Length)
+        {
+            hasReachedLastWaypoint = true;
+            isMoving = false;
+            return;
+        }
+
+        WaypointData currentWaypointData = waypoints[currentWaypointIndex];
+        if (currentWaypointData == null || currentWaypointData.waypoint == null) return;
+        
+        Transform targetWaypoint = currentWaypointData.waypoint;
 
         // Move towards waypoint
         Vector2 direction = (targetWaypoint.position - transform.position).normalized;
@@ -62,7 +98,9 @@ public class JohnMCTrajectoryController : MonoBehaviour
 
         if (distance < 0.1f)
         {
-            currentWaypointIndex++;
+            // Reached waypoint - start waiting (use this waypoint's wait time)
+            isWaiting = true;
+            waitTimer = currentWaypointData.waitTime;
             isMoving = false;
         }
         else

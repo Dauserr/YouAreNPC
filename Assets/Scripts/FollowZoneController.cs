@@ -9,12 +9,13 @@ public class FollowZoneController : MonoBehaviour
     public bool showZone = false; // Toggle visibility of zone
     public GameObject mainCharacter; // Reference to main character
 
-    [Header("NPC Lists")]
-    public List<GameObject> npcsInZone = new List<GameObject>();
-    private List<GameObject> npcsOutsideZone = new List<GameObject>();
+    [Header("Player Lists")]
+    public List<GameObject> npcsInZone = new List<GameObject>(); // Players in zone
+    private List<GameObject> npcsOutsideZone = new List<GameObject>(); // Players outside zone
 
     [Header("Visual")]
     public LineRenderer zoneIndicator; // Optional visual indicator
+    public bool useCircleRenderer = true; // Use circular zone renderer
 
     void Start()
     {
@@ -35,7 +36,7 @@ public class FollowZoneController : MonoBehaviour
     {
         CheckNPCsInZone();
         
-        // Deal damage to NPCs outside the zone
+        // Deal damage to players outside the zone
         foreach (GameObject npc in npcsOutsideZone)
         {
             if (npc != null)
@@ -51,8 +52,8 @@ public class FollowZoneController : MonoBehaviour
 
     void CheckNPCsInZone()
     {
-        // Find all NPCs
-        GameObject[] npcs = GameObject.FindGameObjectsWithTag("NPC");
+        // Find all NPCs (or players to protect)
+        GameObject[] npcs = GameObject.FindGameObjectsWithTag("Player");
         
         npcsInZone.Clear();
         npcsOutsideZone.Clear();
