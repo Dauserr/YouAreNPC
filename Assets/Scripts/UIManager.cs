@@ -133,13 +133,13 @@ public class UIManager : MonoBehaviour
         if (pauseButton != null)
             pauseButton.gameObject.SetActive(false);
         
-        // Show pause panel (game and HUD still visible behind it)
+        // Show pause panel
         if (pausePanel != null)
             pausePanel.SetActive(true);
         
-        // Keep game HUD visible (game is visible behind pause panel)
+        // Hide game HUD when pause panel is shown
         if (gameHUD != null)
-            gameHUD.SetActive(true);
+            gameHUD.SetActive(false);
     }
 
     // Hide Pause Panel (resume game)
@@ -153,30 +153,45 @@ public class UIManager : MonoBehaviour
         if (pauseButton != null)
             pauseButton.gameObject.SetActive(true);
         
-        // Resume game time
-        Time.timeScale = 1f;
-        
-        // Keep game HUD visible
+        // Show game HUD again
         if (gameHUD != null)
             gameHUD.SetActive(true);
+        
+        // Resume game time
+        Time.timeScale = 1f;
     }
 
-    // Show Shop Panel (implement later)
+    // Show Shop Panel
     public void ShowShopPanel()
     {
         // Stop game time
         Time.timeScale = 0f;
         
+        // Hide other panels
+        if (mainMenuPanel != null)
+            mainMenuPanel.SetActive(false);
+        
+        if (pausePanel != null)
+            pausePanel.SetActive(false);
+        
+        // Hide game HUD when shop opens
+        if (gameHUD != null)
+            gameHUD.SetActive(false);
+        
         if (shopPanel != null)
             shopPanel.SetActive(true);
     }
 
-    // Hide Shop Panel (implement later)
+    // Hide Shop Panel
     public void HideShopPanel()
     {
         // Hide shop panel
         if (shopPanel != null)
             shopPanel.SetActive(false);
+        
+        // Show game HUD again when shop closes
+        if (gameHUD != null)
+            gameHUD.SetActive(true);
         
         // Resume game time
         Time.timeScale = 1f;
@@ -208,8 +223,8 @@ public class UIManager : MonoBehaviour
 
     public void OnExitButtonClick()
     {
-        ShowShopPanel();
-        Debug.Log("Exit to Shop!");
+        HideShopPanel();
+        Debug.Log("Shop Closed!");
     }
 
     void Update()

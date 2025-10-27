@@ -22,7 +22,15 @@ namespace IDosGames
 
         public override void UpdateAmount()
         {
-            Amount = IGSUserData.UserInventory.VirtualCurrency.GetValueOrDefault(_virtualCurrencyID, 0);
+            // Check if UserInventory is initialized
+            if (IGSUserData.UserInventory?.VirtualCurrency != null)
+            {
+                Amount = IGSUserData.UserInventory.VirtualCurrency.GetValueOrDefault(_virtualCurrencyID, 0);
+            }
+            else
+            {
+                Amount = 0; // Default to 0 if not initialized
+            }
         }
     }
 }

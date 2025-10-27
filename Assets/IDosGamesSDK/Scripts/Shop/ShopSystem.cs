@@ -54,12 +54,18 @@ namespace IDosGames
 
         private void Start()
         {
-            WebFunctionHandler.Instance.OnAdCompleteEvent += WebAdComplete;
+            if (WebFunctionHandler.Instance != null)
+            {
+                WebFunctionHandler.Instance.OnAdCompleteEvent += WebAdComplete;
+            }
         }
 
         private void OnDestroy()
         {
-            WebFunctionHandler.Instance.OnAdCompleteEvent -= WebAdComplete;
+            if (WebFunctionHandler.Instance != null)
+            {
+                WebFunctionHandler.Instance.OnAdCompleteEvent -= WebAdComplete;
+            }
         }
 
         public static void BuyForRealMoney(string ID)

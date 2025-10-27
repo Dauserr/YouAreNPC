@@ -125,6 +125,27 @@ public class PlayerController : MonoBehaviour
         // Set speed parameter for animator blending
         // This allows smooth transition between Walk and Stay animations
         animator.SetFloat(animationParameter, speed);
+
+        // Set directional animation parameters
+        if (isMoving)
+        {
+            // Determine if moving vertically (up/down)
+            bool movingVertical = Mathf.Abs(moveInput.y) > Mathf.Abs(moveInput.x);
+            bool movingUp = moveInput.y > 0.3f;
+            bool movingDown = moveInput.y < -0.3f;
+            
+            // Set animation parameters for directional movement
+            animator.SetBool("WalkingUp", movingVertical && movingUp);
+            animator.SetBool("WalkingDown", movingVertical && movingDown);
+            animator.SetBool("WalkingHorizontal", !movingVertical);
+        }
+        else
+        {
+            // Not moving - reset directional parameters
+            animator.SetBool("WalkingUp", false);
+            animator.SetBool("WalkingDown", false);
+            animator.SetBool("WalkingHorizontal", false);
+        }
     }
 
     // Get current movement input
